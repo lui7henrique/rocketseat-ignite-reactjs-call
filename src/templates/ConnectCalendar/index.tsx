@@ -1,10 +1,13 @@
 import { Button, Heading, MultiStep, Text } from '@ignite-ui/react'
 import { ArrowRight } from 'phosphor-react'
+import { signIn, useSession } from 'next-auth/react'
 
 import * as SRegister from '../Register/styles'
 import * as S from './styles'
 
 export const ConnectCalendarTemplate = () => {
+  const session = useSession()
+
   return (
     <SRegister.Container>
       <SRegister.Header>
@@ -20,7 +23,11 @@ export const ConnectCalendarTemplate = () => {
       <S.ConnectBox>
         <S.ConnectItem>
           <Text>Google Calendar</Text>
-          <Button variant="secondary" size="sm">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => signIn('google')}
+          >
             Conectar
             <ArrowRight />
           </Button>
