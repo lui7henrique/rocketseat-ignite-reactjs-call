@@ -3,10 +3,12 @@ import { useForm } from 'react-hook-form'
 import { useCallback, useEffect } from 'react'
 import { ArrowRight } from 'phosphor-react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/router'
 
 import * as S from './styles'
 import { RegisterFormData, registerFormSchema } from './schema'
-import { useRouter } from 'next/router'
+import { api } from '../../lib/axios'
+import { AxiosError } from 'axios'
 
 export const RegisterTemplate = () => {
   const {
@@ -23,9 +25,18 @@ export const RegisterTemplate = () => {
   } = useRouter()
 
   const handleRegister = useCallback(async (data: RegisterFormData) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      await api.post('/users', {
+        name: data.name,
+        username: data.username,
+      })
+    } catch (err) {
+      if (err instanceof AxiosError && err?.response?.data?.message) {
+        return alert(err.response.data.message)
+      }
 
-    console.log({ data })
+      console.error(err)
+    }
   }, [])
 
   useEffect(() => {
