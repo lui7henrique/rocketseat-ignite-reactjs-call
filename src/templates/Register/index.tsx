@@ -1,26 +1,38 @@
 import { Button, Heading, MultiStep, Text, TextInput } from '@ignite-ui/react'
 import { useForm } from 'react-hook-form'
+import { useCallback, useEffect } from 'react'
 import { ArrowRight } from 'phosphor-react'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import * as S from './styles'
 import { RegisterFormData, registerFormSchema } from './schema'
-import { useCallback } from 'react'
+import { useRouter } from 'next/router'
 
 export const RegisterTemplate = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setValue,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
   })
+
+  const {
+    query: { username },
+  } = useRouter()
 
   const handleRegister = useCallback(async (data: RegisterFormData) => {
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
     console.log({ data })
   }, [])
+
+  useEffect(() => {
+    if (username) {
+      setValue('username', String(username))
+    }
+  }, [username, setValue])
 
   return (
     <S.Container>
