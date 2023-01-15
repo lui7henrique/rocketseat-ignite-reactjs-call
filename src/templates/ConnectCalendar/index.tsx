@@ -1,12 +1,21 @@
 import { Button, Heading, MultiStep, Text } from '@ignite-ui/react'
-import { ArrowRight } from 'phosphor-react'
-import { signIn, useSession } from 'next-auth/react'
+import { ArrowRight, Check } from 'phosphor-react'
+import { signIn, useSession, signOut } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 import * as SRegister from '../Register/styles'
 import * as S from './styles'
 
 export const ConnectCalendarTemplate = () => {
   const session = useSession()
+  const router = useRouter()
+
+  const hasAuthError = !!router.query.error
+  const isSignedId = session.status === 'authenticated'
+
+  async function handleConnectCalendar() {
+    await signIn('google')
+  }
 
   return (
     <SRegister.Container>
@@ -23,14 +32,22 @@ export const ConnectCalendarTemplate = () => {
       <S.ConnectBox>
         <S.ConnectItem>
           <Text>Google Calendar</Text>
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => signIn('google')}
-          >
-            Conectar
-            <ArrowRight />
-          </Button>
+
+          {isSignedId ? (
+            <Button size="sm" onClick={signOut}>
+              Desconectar
+              <Check />
+            </Button>
+          ) : (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleConnectCalendar}
+            >
+              Conectar
+              <ArrowRight />
+            </Button>
+          )}
         </S.ConnectItem>
 
         <Button type="submit">
