@@ -34,7 +34,7 @@ export const ConnectCalendarTemplate = () => {
           <Text>Google Calendar</Text>
 
           {isSignedId ? (
-            <Button size="sm" onClick={signOut}>
+            <Button size="sm" onClick={() => signOut()}>
               Desconectar
               <Check />
             </Button>
