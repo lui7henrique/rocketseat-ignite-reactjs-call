@@ -17,6 +17,8 @@ export const ConnectCalendarTemplate = () => {
     await signIn('google')
   }
 
+  console.log({ session })
+
   return (
     <SRegister.Container>
       <SRegister.Header>
