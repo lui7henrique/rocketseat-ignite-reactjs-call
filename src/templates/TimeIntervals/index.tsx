@@ -13,7 +13,11 @@ import { Controller, useForm, useFieldArray } from 'react-hook-form'
 import { getWeekDays } from '../../utils/get-week-days'
 
 import { Container, Header } from '../Register/styles'
-import { TimeIntervalsFormData, timeIntervalsFormSchema } from './schema'
+import {
+  TimeIntervalsFormInput,
+  TimeIntervalsFormOutput,
+  timeIntervalsFormSchema,
+} from './schema'
 
 import * as S from './styles'
 
@@ -24,7 +28,7 @@ export const TimeIntervalsTemplate = () => {
     control,
     formState: { isSubmitting, errors },
     watch,
-  } = useForm({
+  } = useForm<TimeIntervalsFormInput>({
     resolver: zodResolver(timeIntervalsFormSchema),
     defaultValues: {
       intervals: [
@@ -47,8 +51,10 @@ export const TimeIntervalsTemplate = () => {
     name: 'intervals',
   })
 
-  const handleSetTimeIntervals = useCallback((data: TimeIntervalsFormData) => {
-    console.log({ data })
+  const handleSetTimeIntervals = useCallback((data: unknown) => {
+    const formData = data as TimeIntervalsFormOutput
+
+    console.log(formData)
   }, [])
 
   return (
