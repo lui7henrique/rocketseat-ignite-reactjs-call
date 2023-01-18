@@ -1,3 +1,4 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Button,
   Checkbox,
@@ -12,14 +13,9 @@ import { Controller, useForm, useFieldArray } from 'react-hook-form'
 import { getWeekDays } from '../../utils/get-week-days'
 
 import { Container, Header } from '../Register/styles'
+import { TimeIntervalsFormData, timeIntervalsFormSchema } from './schema'
 
-import {
-  IntervalBox,
-  IntervalContainer,
-  IntervalDay,
-  IntervalInputs,
-  IntervalItem,
-} from './styles'
+import * as S from './styles'
 
 export const TimeIntervalsTemplate = () => {
   const {
@@ -29,6 +25,7 @@ export const TimeIntervalsTemplate = () => {
     formState: { isSubmitting, errors },
     watch,
   } = useForm({
+    resolver: zodResolver(timeIntervalsFormSchema),
     defaultValues: {
       intervals: [
         { weekDay: 0, enabled: false, startTime: '08:00', endTime: '18:00' },
@@ -50,7 +47,9 @@ export const TimeIntervalsTemplate = () => {
     name: 'intervals',
   })
 
-  const handleSetTimeIntervals = useCallback(() => {}, [])
+  const handleSetTimeIntervals = useCallback((data: TimeIntervalsFormData) => {
+    console.log({ data })
+  }, [])
 
   return (
     <Container>
@@ -64,12 +63,12 @@ export const TimeIntervalsTemplate = () => {
         <MultiStep size={4} currentStep={3} />
       </Header>
 
-      <IntervalBox as="form">
-        <IntervalContainer>
+      <S.IntervalBox as="form" onSubmit={handleSubmit(handleSetTimeIntervals)}>
+        <S.IntervalContainer>
           {fields.map((field, index) => {
             return (
-              <IntervalItem key={field.id}>
-                <IntervalDay>
+              <S.IntervalItem key={field.id}>
+                <S.IntervalDay>
                   <Controller
                     name={`intervals.${index}.enabled`}
                     control={control}
@@ -85,9 +84,9 @@ export const TimeIntervalsTemplate = () => {
                     }}
                   />
                   <Text>{weekDays[field.weekDay]}</Text>
-                </IntervalDay>
+                </S.IntervalDay>
 
-                <IntervalInputs>
+                <S.IntervalInputs>
                   <TextInput
                     size="sm"
                     type="time"
@@ -103,17 +102,21 @@ export const TimeIntervalsTemplate = () => {
                     disabled={intervals[index].enabled === false}
                     {...register(`intervals.${index}.endTime`)}
                   />
-                </IntervalInputs>
-              </IntervalItem>
+                </S.IntervalInputs>
+              </S.IntervalItem>
             )
           })}
-        </IntervalContainer>
+        </S.IntervalContainer>
+
+        {errors.intervals && (
+          <S.FormError size="sm">{errors.intervals.message}</S.FormError>
+        )}
 
         <Button type="submit">
           Próximo passo
           <ArrowRight />
         </Button>
-      </IntervalBox>
+      </S.IntervalBox>
     </Container>
   )
 }
