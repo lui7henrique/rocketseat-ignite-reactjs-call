@@ -22,6 +22,7 @@ export const RegisterTemplate = () => {
 
   const {
     query: { username },
+    push,
   } = useRouter()
 
   const handleRegister = useCallback(async (data: RegisterFormData) => {
@@ -30,6 +31,8 @@ export const RegisterTemplate = () => {
         name: data.name,
         username: data.username,
       })
+
+      await push('/register/connect-calendar')
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
         return alert(err.response.data.message)

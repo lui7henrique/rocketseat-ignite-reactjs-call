@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
 } from '@ignite-ui/react'
+import { useRouter } from 'next/router'
 import { ArrowRight } from 'phosphor-react'
 import { useCallback } from 'react'
 import { Controller, useForm, useFieldArray } from 'react-hook-form'
@@ -44,6 +45,8 @@ export const TimeIntervalsTemplate = () => {
     },
   })
 
+  const { push } = useRouter()
+
   const intervals = watch('intervals')
   const weekDays = getWeekDays()
 
@@ -58,6 +61,8 @@ export const TimeIntervalsTemplate = () => {
     await api.post('/users/time-intervals', {
       intervals,
     })
+
+    push('/register/update-profile')
   }, [])
 
   return (

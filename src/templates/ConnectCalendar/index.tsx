@@ -5,17 +5,22 @@ import { useRouter } from 'next/router'
 
 import * as SRegister from '../Register/styles'
 import * as S from './styles'
+import { useCallback } from 'react'
 
 export const ConnectCalendarTemplate = () => {
   const session = useSession()
-  const router = useRouter()
+  const { push, query } = useRouter()
 
-  const hasAuthError = !!router.query.error
+  const hasAuthError = !!query.error
   const isSignedId = session.status === 'authenticated'
 
   async function handleConnectCalendar() {
     await signIn('google')
   }
+
+  const handleNavigateToNextStep = useCallback(() => {
+    push('/register/time-intervals')
+  }, [])
 
   console.log({ session })
 
@@ -52,7 +57,11 @@ export const ConnectCalendarTemplate = () => {
           )}
         </S.ConnectItem>
 
-        <Button type="submit">
+        <Button
+          onClick={handleNavigateToNextStep}
+          type="submit"
+          disabled={!isSignedId}
+        >
           Próximo passo
           <ArrowRight />
         </Button>
