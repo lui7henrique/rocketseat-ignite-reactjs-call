@@ -10,6 +10,7 @@ import {
 import { ArrowRight } from 'phosphor-react'
 import { useCallback } from 'react'
 import { Controller, useForm, useFieldArray } from 'react-hook-form'
+import { api } from '../../lib/axios'
 import { getWeekDays } from '../../utils/get-week-days'
 
 import { Container, Header } from '../Register/styles'
@@ -51,10 +52,12 @@ export const TimeIntervalsTemplate = () => {
     name: 'intervals',
   })
 
-  const handleSetTimeIntervals = useCallback((data: unknown) => {
-    const formData = data as TimeIntervalsFormOutput
+  const handleSetTimeIntervals = useCallback(async (data: unknown) => {
+    const { intervals } = data as TimeIntervalsFormOutput
 
-    console.log(formData)
+    await api.post('/users/time-intervals', {
+      intervals,
+    })
   }, [])
 
   return (
