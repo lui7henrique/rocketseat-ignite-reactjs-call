@@ -2,7 +2,7 @@ import { Calendar } from '../../../components/Calendar'
 import * as S from './styles'
 
 export const CalendarStep = () => {
-  const isDateSelected = true
+  const isDateSelected = false
 
   return (
     <S.Container isTimePickerOpen={isDateSelected}>
