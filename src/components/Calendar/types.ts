@@ -9,3 +9,8 @@ export interface CalendarWeek {
 }
 
 export type CalendarWeeks = CalendarWeek[]
+
+export interface CalendarProps {
+  selectedDate: Date | null
+  onDateSelected: (date: Date) => void
+}
