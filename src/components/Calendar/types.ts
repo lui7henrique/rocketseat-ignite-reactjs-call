@@ -10,6 +10,10 @@ export interface CalendarWeek {
 
 export type CalendarWeeks = CalendarWeek[]
 
+export interface BlockedDates {
+  blockedWeekDays: number[]
+}
+
 export interface CalendarProps {
   selectedDate: Date | null
   onDateSelected: (date: Date) => void
