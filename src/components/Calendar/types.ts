@@ -12,6 +12,7 @@ export type CalendarWeeks = CalendarWeek[]
 
 export interface BlockedDates {
   blockedWeekDays: number[]
+  blockedDates: number[]
 }
 
 export interface CalendarProps {

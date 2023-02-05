@@ -47,7 +47,7 @@ export function Calendar(props: CalendarProps) {
     {
       params: {
         year: currentDate.get('year'),
-        month: currentDate.get('month'),
+        month: currentDate.get('month') + 1,
       },
     },
   )
@@ -95,7 +95,8 @@ export function Calendar(props: CalendarProps) {
           date,
           disabled:
             date.endOf('day').isBefore(new Date()) ||
-            blockedDates.blockedWeekDays.includes(date.get('day')),
+            blockedDates.blockedWeekDays.includes(date.get('day')) ||
+            blockedDates.blockedDates.includes(date.get('date')),
         }
       }),
 
