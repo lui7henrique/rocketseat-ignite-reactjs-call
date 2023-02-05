@@ -22,8 +22,6 @@ export const ConnectCalendarTemplate = () => {
     push('/register/time-intervals')
   }, [])
 
-  console.log({ session })
-
   return (
     <SRegister.Container>
       <SRegister.Header>

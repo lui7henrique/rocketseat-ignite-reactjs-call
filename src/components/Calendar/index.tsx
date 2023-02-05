@@ -101,8 +101,6 @@ export function Calendar(props: CalendarProps) {
           date.get('date'),
         )
 
-        console.log({ blockedDates })
-
         return {
           date,
           disabled:
