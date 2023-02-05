@@ -1,5 +1,11 @@
+import { NextSeo } from 'next-seo'
 import { RegisterTemplate } from '../../templates/Register'
 
 export default function Register() {
-  return <RegisterTemplate />
+  return (
+    <>
+      <NextSeo title="Crie uma conta | Ignite Call" />
+      <RegisterTemplate />
+    </>
+  )
 }

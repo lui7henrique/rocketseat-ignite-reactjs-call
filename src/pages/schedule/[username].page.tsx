@@ -1,4 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { NextSeo } from 'next-seo'
+
 import { prisma } from '../../lib/prisma'
 import {
   ScheduleTemplate,
@@ -6,7 +8,12 @@ import {
 } from '../../templates/Schedule'
 
 export default function Schedule(props: ScheduleTemplateProps) {
-  return <ScheduleTemplate {...props} />
+  return (
+    <>
+      <ScheduleTemplate {...props} />
+      <NextSeo title={`Agendar com ${props.user.name} | Ignite Call`} />
+    </>
+  )
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
