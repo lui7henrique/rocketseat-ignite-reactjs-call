@@ -1,9 +1,8 @@
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Calendar } from '../../../components/Calendar'
 import { useQuery } from '../../../hooks/useQuery'
-import { api } from '../../../lib/axios'
 import * as S from './styles'
 
 interface Availability {
@@ -11,7 +10,13 @@ interface Availability {
   availableTimes: number[]
 }
 
-export const CalendarStep = () => {
+interface CalendarStepProps {
+  onSelectDateTime: (date: Date) => void
+}
+
+export const CalendarStep = (props: CalendarStepProps) => {
+  const { onSelectDateTime } = props
+
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
 
   const { query } = useRouter()
@@ -33,6 +38,15 @@ export const CalendarStep = () => {
     },
   )
 
+  function handleSelectTime(hour: number) {
+    const dateWithTime = dayjs(selectedDate)
+      .set('hour', hour)
+      .startOf('hour')
+      .toDate()
+
+    onSelectDateTime(dateWithTime)
+  }
+
   return (
     <S.Container isTimePickerOpen={isDateSelected}>
       <Calendar selectedDate={selectedDate} onDateSelected={setSelectedDate} />
@@ -49,6 +63,7 @@ export const CalendarStep = () => {
                 <S.TimePickerItem
                   key={hour}
                   disabled={!availability.availableTimes.includes(hour)}
+                  onClick={() => handleSelectTime(hour)}
                 >
                   {String(hour).padStart(2, '0')}:00h
                 </S.TimePickerItem>
