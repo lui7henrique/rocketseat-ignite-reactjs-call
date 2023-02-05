@@ -47,7 +47,7 @@ export function Calendar(props: CalendarProps) {
     {
       params: {
         year: currentDate.get('year'),
-        month: currentDate.get('month') + 1,
+        month: String(currentDate.get('month') + 1).padStart(2, '0'),
       },
     },
   )
@@ -91,12 +91,24 @@ export function Calendar(props: CalendarProps) {
       }),
 
       ...daysInMonthArray.map((date) => {
+        const isBeforeToday = date.endOf('day').isBefore(new Date())
+
+        const blockedDatesIncludesDay = blockedDates.blockedWeekDays.includes(
+          date.get('day'),
+        )
+
+        const blockedDatesIncludesDate = blockedDates.blockedDates.includes(
+          date.get('date'),
+        )
+
+        console.log({ blockedDates })
+
         return {
           date,
           disabled:
-            date.endOf('day').isBefore(new Date()) ||
-            blockedDates.blockedWeekDays.includes(date.get('day')) ||
-            blockedDates.blockedDates.includes(date.get('date')),
+            isBeforeToday ||
+            blockedDatesIncludesDay ||
+            blockedDatesIncludesDate,
         }
       }),
 
